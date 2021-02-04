@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-        <% request.setAttribute("titre", "nous contacter"); %>
+
+<% request.setAttribute("titre", "Contactez-nous"); %>
 <!-- head bootstrap de la page -->
 <%@ include file="/WEB-INF/include/head.jsp" %>
 

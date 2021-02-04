@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-        <% request.setAttribute("titre", "accueil"); %>
+
     
+    
+<% request.setAttribute("titre", "Accueil"); %>
+
 <!-- head bootstrap de la page -->
 <%@ include file="/WEB-INF/include/head.jsp" %>
 

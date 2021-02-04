@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
+<%@ page import="metier.Employe" %>
+<%@ page import="java.util.ArrayList" %>
+<jsp:useBean id="employe" class="metier.Employe" scope="session" />
 <%
 	request.setAttribute("titre", "création d'un employé");
 %>
@@ -40,9 +43,9 @@
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-pills flex-column">
-							<li><p>DUPONT</p></li>
-							<li><p>Joe</p></li>
-							<li><p>12/03/1989</p></li>
+							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye() %></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye() %></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye() %></p></li>
 						</ul>
 					</div>
 				</div>

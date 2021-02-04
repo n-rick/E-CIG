@@ -40,9 +40,9 @@
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-pills flex-column">
-							<li><p class="text-danger"><%=employe.getNomEmploye() %></p></li>
-							<li><p class="text-info"><%=employe.getPrenomEmploye() %></p></li>
-							<li><p class="text-warning"><%=employe.getDateNaissEmploye() %></p></li>
+							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye() %></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye() %></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye() %></p></li>
 						</ul>
 					</div>
 				</div>

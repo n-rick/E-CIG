@@ -34,7 +34,7 @@ public class Employe {
 		this.dateNaissEmploye = dateNaissEmploye;
 		this.emailEmploye = emailEmploye;
 		this.mdpEmploye = mdpEmploye;
-		this.anciennete = anciennete;
+		this.anciennete = anciennete; // En faire une propriété pour en faire une donnée calculé
 		this.adressRueEmploye = adressRueEmploye;
 		this.cdpEmploye = cdpEmploye;
 		this.nomVille = nomVille;
