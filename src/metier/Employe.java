@@ -13,17 +13,20 @@ public class Employe {
 	private String adressRueEmploye;
 	private Integer cdpEmploye;
 	private String nomVille;
+	
 
+	// Constructeur par défaut, utilisation exclusif dans le useBean
 	public Employe() {
 	}
 	
+	// Constructeur avec Id, pour recherche et suppression par ID.
 	public Employe (String idEmploye) {
 		this.idEmploye = idEmploye;
 		this.nomEmploye = "inconnu";		
 	}
 	
 
-
+	// Constructeur standard.
 	public Employe(String idEmploye, String civEmploye, String nomEmploye, String prenomEmploye,
 			String dateNaissEmploye, String emailEmploye, String mdpEmploye, Integer anciennete,
 			String adressRueEmploye, Integer cdpEmploye, String nomVille) {
@@ -40,7 +43,7 @@ public class Employe {
 		this.nomVille = nomVille;
 	}
 	
-
+	// GETTERS
 	public String getIdEmploye() {
 		return idEmploye;
 	}
@@ -84,7 +87,8 @@ public class Employe {
 	public String getNomVille() {
 		return nomVille;
 	}
-
+	
+	// SETTERS
 	public void setIdEmploye(String idEmploye) {
 		this.idEmploye = idEmploye;
 	}
@@ -129,6 +133,8 @@ public class Employe {
 		this.nomVille = nomVille;
 	}
 	
+	// Fonction EQUALS redéfini, pour vérification entre deux
+	// objet de type Employé; pour la suppression d'objet.
 	@Override
 	public boolean equals(Object obj) {
 		boolean retour = false;
@@ -138,7 +144,8 @@ public class Employe {
 		}
 		return retour;
 	}
-
+	
+	// Affichage (uniquement pour des tests, ou autre )
 	@Override
 	public String toString() {
 		return "Employe [idEmploye : " + idEmploye + ", civEmploye : " + civEmploye + ", nomEmploye : " + nomEmploye

@@ -10,6 +10,7 @@ public class Dao {
 	
 	// Enrick création d'une arrêt liste employé
 	public static ArrayList<Employe>  employes  = initEmployes();
+	
 	// SOFIEN
 	public static Abonne getAbonne(String mail, String pw) {
 		
@@ -71,13 +72,16 @@ public class Dao {
 		return msg;
 
 	}
+	// FIN CODAGE SOFIEN
 	
-	//ENRICK -  Get employé avec ID
+	// DEBUT CODE ENRICK
+	
+	//ENRICK -  Get employé avec ID en paramètre de type chaine de caractère
 	public static Employe getEmploye(String idEmploye) {
 		Employe employe = new Employe(idEmploye);
 		return getEmploye(employe);
 	}
-	// ENRICK - Get employé d'un employé
+	// ENRICK - Get Employé avec en paramètre un objet de type employé
 	public static Employe getEmploye(Employe employe) {
 		Employe trouve = null;
 		if (employes.contains(employe)) trouve = employes.get(employes.indexOf(employe));
@@ -96,7 +100,7 @@ public class Dao {
 		return trouve;
 	}
 	
-	// ENRICK - Suppression d'employé
+	// ENRICK - Suppression d'un employé dans la liste
 	public static boolean supressEmploye(String idEmploye) {
 		boolean ok = false;
 		Employe employe = new Employe(idEmploye);
@@ -106,6 +110,18 @@ public class Dao {
 			ok = true;
 		}
 		return ok;
+	}
+	
+	// ENRICK  - Modification d'employé
+	public static boolean modifEmploye (Employe employe) {
+		boolean modifOk = false;
+		int index = employes.indexOf(employe);
+		if(index != -1)	{
+			employes.set(index, employe);
+			modifOk = true;
+		}
+		
+		return modifOk;		
 	}
 
 	// ENRICK - Array list des employés 
@@ -120,7 +136,6 @@ public class Dao {
 	list.add(new Employe("RE05", "Madame", "Hello", "Sarrah", "16/10/1997","helloS@mailme.com","helsare05", 1, "123 avenue de la gd Motte", 83170 , "Brignole"));
 	return list;
 }
-	
-	
+// FIN DE CODE ENRICK	
 
 }

@@ -44,7 +44,8 @@ public class GererIdentification extends HttpServlet {
 
 		// Je vérifie s'il existe dans la dao et s'il existe je le recup
 		Abonne a = null;
-		// Vérification de l'existence dans la liste des employés de la dao
+		
+		//ENRICK - Vérification de l'existence dans la liste des employés de la dao
 		Employe employe = Dao.getEmploye(mail, pw);
 		
 		if (Dao.getAbonne(mail, pw) != null) {

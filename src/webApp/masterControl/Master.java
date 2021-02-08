@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.Dao;
+import metier.Employe;
 import produit.dao.Daoprod;
 import produit.metier.Produit;
 
@@ -46,10 +48,6 @@ public class Master extends HttpServlet {
 		else if (path.endsWith("/faq")) goFaq(request, response);
 		else if (path.endsWith("/admin")) goAdmin(request, response);
 		else if (path.endsWith("/profil")) goProfil(request, response);
-		else if (path.endsWith("/creaEmp")) goCrea(request, response);
-
-		
-
 
 		else {
 				request.setAttribute("message", "404 PAGE NOT FOUND");
@@ -131,6 +129,8 @@ public class Master extends HttpServlet {
 	}
 	private void goAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Go Admin");
+		ArrayList<Employe> listDesEmployes = Dao.employes;
+		request.setAttribute("employes", listDesEmployes);
 		disp = request.getRequestDispatcher("/WEB-INF/vue/employe/listeEmploye.jsp");
 		disp.forward(request,response);	
 	}
@@ -138,13 +138,6 @@ public class Master extends HttpServlet {
 		System.out.println("Go Profil");
 		disp = request.getRequestDispatcher("/WEB-INF/espaceAbonne.jsp");
 		disp.forward(request,response);	
-	}
-	
-	private void goCrea(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Go creation employ�");
-		disp = request.getRequestDispatcher("/WEB-INF/vue/employe/creationEmploye.jsp");
-		disp.forward(request,response);
-		
 	}
 	
 	

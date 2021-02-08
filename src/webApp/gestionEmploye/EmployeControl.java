@@ -25,9 +25,10 @@ public class EmployeControl extends HttpServlet {
  	private RequestDispatcher 	disp;
  	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	System.out.println("Dans controleur employe acces via /admin/ en doGet");
+	
+		System.out.println("Dans controleur employe acces via /admin/ en doGet");
+		
 		if 		(request.getPathInfo() == null || request.getPathInfo().equals("/")) 		goAccueil(request, response);
-		else if (request.getPathInfo().equals("/crea")) 									goCreaEmploye(request, response);
 		else if (request.getPathInfo().equals("/list")) 									goListEmploye(request, response);
 		else {
 			request.setAttribute("message", "Une erreur c'est produite! Veuillez retourner à l'accueil");
@@ -52,14 +53,18 @@ public class EmployeControl extends HttpServlet {
 	
 	
 	private void goSupp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Dans Go supp");
 		request.setAttribute("message", "");
-		// recuperation des donnees
+		// récupération des donnees
 		String idEmploye		= request.getParameter("selectEmploye").strip();
+		System.out.println("les données de l'employé sont : "+ idEmploye);
 
 		// suppression de l'employé dans la liste
 		boolean ok = Dao.supressEmploye(idEmploye);
+		System.out.println("l'employé (N° "+idEmploye+") a bien été supprimé ");
+		
 
-		//rediriger vers le formulaire
+		//rediriger vers la liste des employés
 		if (ok) request.setAttribute("message", "L'employe " + idEmploye + " a été supprim&eacute;");
 		else	request.setAttribute("message", "L'employe "+ idEmploye + " n'existe pas");
 
@@ -68,30 +73,28 @@ public class EmployeControl extends HttpServlet {
 	}
 
 	private void goModif(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+// TODO A coder méthode modifier avec l'ID.
 		
 	}
 
 	private void goListEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String chemin = null;
+		System.out.println("dans EmployeControle - Méthode goListEmploye");
+		String cheminASuivre = null;
 		// si la liste est vide
 		if (Dao.employes.size() == 0) {
 			request.setAttribute("message", "La liste des employés est vide.");
-			chemin = this.getServletContext().getInitParameter("pageError");
+			cheminASuivre = this.getServletContext().getInitParameter("pageError");
 		}
 		else {
 			// on affiche la liste
 			request.setAttribute("employes", Dao.employes);
-			chemin = "/WEB-INF/vue/employe/listeEmploye.jsp";
+			cheminASuivre = "/WEB-INF/vue/employe/listeEmploye.jsp";
 		}
-		RequestDispatcher disp = request.getRequestDispatcher(chemin);
+		disp = request.getRequestDispatcher(cheminASuivre);
 		disp.forward(request, response);
 		
 	}
-	private void goCreaEmploye(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	private void goAccueil(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Dans EmployeControl - Go accueil");
 		disp = request.getRequestDispatcher("/index.jsp");

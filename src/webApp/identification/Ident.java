@@ -39,7 +39,7 @@ public class Ident extends HttpServlet {
 
 		// verification de l'existence dans la liste des employes
 		Employe employe = Dao.getEmploye(email, pwd);
-		// System.out.println("Identification : " + employe);
+		System.out.println("Identification : " + employe);
 
 		// Mise en session du nom et prenom
 		HttpSession session = request.getSession(true);

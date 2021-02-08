@@ -2,10 +2,12 @@
 	pageEncoding="utf-8"%>
 <%@ page import="metier.Employe" %>
 <%@ page import="java.util.ArrayList" %>
-	<jsp:useBean id="employe" class="metier.Employe" scope="session" />
-<%
-	request.setAttribute("titre", "liste des employés");
-%> 
+<%@ page import="dao.Dao" %>
+<jsp:useBean id="employe" class="metier.Employe" scope="session" />
+<jsp:useBean id="message" class="java.lang.String" scope="request"/>
+<% ArrayList<Employe> employes = (ArrayList<Employe>) request.getAttribute("employes"); %>
+
+<% request.setAttribute("titre", "liste des employés");%> 
 
 <!-- head bootstrap de la page -->
 <%@ include file="/WEB-INF/include/head.jsp"%>
@@ -71,12 +73,12 @@
 						<div class="container">
 
 							<div class="box">
-								<form role="modif" action="" method="post">
+								<form role="modif" action="<%=request.getContextPath()%>/modif" method="post">
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-4">
-												<label for="idEmploye">Identifiant de
-													l'employ&eacute;</label> <input id="idEmploye" class="form-control bg-secondary"
+												<label for="idEmploye">Identifiant de l'employ&eacute;</label>
+												<input id="idEmploye" class="form-control bg-secondary"
 													type="text" name="idEmploye" value="SA01" disabled>
 											</div>
 											<div class="col-md-4 text-center d-flex align-items-md-center">
@@ -100,19 +102,19 @@
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-4">
-												<label for="nom">Nom</label> <input id="nom"
+												<label for="nomEmploye">Nom</label> <input id="nomEmploye"
 													class="form-control bg-secondary" type="text" name="nomEmploye"
-													placeholder="nom" value="Dupont" size="50" disabled>
+													placeholder="nomEmploye" value="Dupont" size="50" disabled>
 											</div>
 											<div class="col-md-4">
-												<label for="prenom">Pr&eacute;nom usuel</label> <input
+												<label for="prenomEmploye">Pr&eacute;nom usuel</label> <input
 													id="prenom" class="form-control bg-secondary" type="text"
 													name="prenomEmploye" placeholder="prénom" size="50" value="Jeanne"
 													disabled>
 											</div>
 											<div class="col-md-3">
-												<label for="age">Date de naissance</label> <input
-													id="age" class="form-control bg-secondary" type="date" 
+												<label for="ageEmploye">Date de naissance</label> <input
+													id="ageEmploye" class="form-control bg-secondary" type="date" 
 													name="ageEmploye" placeholder="date" value="19/07/1996"
        												min="01/01/1970" max="31/12/2000" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" disabled>
 											</div>
@@ -182,13 +184,14 @@
 							</tr>
 						</thead>
 						<tbody>
+						<% for (Employe employ : employes) { %>
 							<tr>
 								<th scope="row"><input name="selectEmploye" type="radio"
-									value="RE12"></th>
-								<td>Dupont</td>
-								<td>Joe</td>
-								<td>dupont.joe@mail.com</td>
-								<td>Marseille</td>
+									value="<%=employ.getIdEmploye() %>"></th>
+								<td><%=employ.getNomEmploye()%></td>
+								<td><%=employ.getPrenomEmploye() %></td>
+								<td><%=employ.getEmailEmploye() %></td>
+								<td><%=employ.getNomVille() %></td>
 								<td>
 									<div>
 										<button type="button" data-toggle="collapse"
@@ -199,102 +202,15 @@
 										<button class="btn btn-danger navbar-toggler"
 											data-bs-toggle="popover" title="Suppression effectuée!"
 											data-bs-content="La suppression a bien été prise en compte. Merci."
-											type="reset" id="btnSupp" formaction="<%=request.getContextPath()%>/admin/supp">
+											type="reset" id="btnSupp" formaction="<%=request.getContextPath() %>/admin/supp">
 											<span class="sr-only">supprimer</span> <i
 												class="fa fa-user-times"></i>
 										</button>
 									</div>
 								</td>
 							</tr>
-							<tr>
-								<th scope="row"><input name="selectEmploye" type="radio"
-									value="SA01"></th>
-								<td>Dupont</td>
-								<td>Jeanne</td>
-								<td>dupont.j@mail.com</td>
-								<td>Aix-en-Provence</td>
-								<td>
-									<div>
-										<button type="button" data-toggle="collapse"
-											data-target="#modif" class="btn btn-info navbar-toggler">
-											<span class="sr-only">modifier</span> <i
-												class="fa fa-pencil-square-o"></i>
-										</button>
-										<button class="btn btn-danger navbar-toggler" type="reset"
-											id="btnSupp" formaction="#">
-											<span class="sr-only">supprimer</span> <i
-												class="fa fa-user-times"></i>
-										</button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row"><input name="selectEmploye" type="radio"
-									value="SA17"></th>
-								<td>Machin</td>
-								<td>Charles</td>
-								<td>Charles</td>
-								<td>Pertuis</td>
-								<td>
-									<div>
-										<button type="button" data-toggle="collapse"
-											data-target="#modif" class="btn btn-info navbar-toggler">
-											<span class="sr-only">modifier</span> <i
-												class="fa fa-pencil-square-o"></i>
-										</button>
-										<button class="btn btn-danger navbar-toggler" type="reset"
-											id="btnSupp" formaction="#">
-											<span class="sr-only">supprimer</span> <i
-												class="fa fa-user-times"></i>
-										</button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row"><input name="selectEmploye" type="radio"
-									value="SA45"></th>
-								<td>Truc</td>
-								<td>Gin</td>
-								<td>trgin77@email.com</td>
-								<td>La ciotat</td>
-								<td>
-									<div>
-										<button type="button" data-toggle="collapse"
-											data-target="#modif" class="btn btn-info navbar-toggler">
-											<span class="sr-only">modifier</span> <i
-												class="fa fa-pencil-square-o"></i>
-										</button>
-										<button class="btn btn-danger navbar-toggler" type="reset"
-											id="btnSupp" formaction="#">
-											<span class="sr-only">supprimer</span> <i
-												class="fa fa-user-times"></i>
-										</button>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th scope="row"><input name="selectEmploye" type="radio"
-									value="RE05"></th>
-								<td>Hello</td>
-								<td>Sarrah</td>
-								<td>helloS@mailme.com</td>
-								<td>Brignole</td>
-								<td>
-									<div>
-										<button type="button" data-toggle="collapse"
-											data-target="#modif" class="btn btn-info navbar-toggler">
-											<span class="sr-only">modifier</span> <i
-												class="fa fa-pencil-square-o"></i>
-										</button>
-										<button class="btn btn-danger navbar-toggler" type="reset"
-											id="btnSupp" formaction="#">
-											<span class="sr-only">supprimer</span> <i
-												class="fa fa-user-times"></i>
-										</button>
-									</div>
-								</td>
-							</tr>
-						</tbody>
+							<% } %>
+							</tbody>
 					</table>
 				</form>
 				<!--  FIN DE LISTE -->
