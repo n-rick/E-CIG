@@ -1,3 +1,15 @@
+Demande à Mme Muller: 
+1 - NullpointerException après ajout de la class coordonnées. OK
+2 - Création d'un objet EMployé de type Responsable et salarié. A voir
+3 - Création dans la jsp en fonction de l'objet. a Voir ok
+
+// A VOIR : 
+Pour faire le trie par ville :
+Dans la class metier.ville >> coder : méthode Equals() et la méthode compareTo() >> en @Override
+Voir à rajouter dans la définition de la classe implements comparable.
+
+TEST : Oui possible sur la méthode creerRef(). 
+
 De Enrick:
 
 Il y a des liens à mettre à jours dans le fichier navbar.jsp

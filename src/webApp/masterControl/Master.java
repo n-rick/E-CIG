@@ -131,7 +131,7 @@ public class Master extends HttpServlet {
 		System.out.println("Go Admin");
 		ArrayList<Employe> listDesEmployes = Dao.employes;
 		request.setAttribute("employes", listDesEmployes);
-		disp = request.getRequestDispatcher("/WEB-INF/vue/employe/listeEmploye.jsp");
+		disp = request.getRequestDispatcher("/admin/list");
 		disp.forward(request,response);	
 	}
 	private void goProfil(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

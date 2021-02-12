@@ -1,14 +1,19 @@
 package dao;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import metier.Abonne;
 import metier.Employe;
+import metier.EmployeCoordonnees;
+import metier.Responsable;
+import metier.Salarie;
 
 public class Dao {
 
 	public static ArrayList<Abonne> abonnes = initA();
 	
 	// Enrick création d'une arrêt liste employé
+
 	public static ArrayList<Employe>  employes  = initEmployes();
 	
 	// SOFIEN
@@ -77,11 +82,16 @@ public class Dao {
 	// DEBUT CODE ENRICK
 	
 	//ENRICK -  Get employé avec ID en paramètre de type chaine de caractère
+	/**
+	 * @param idEmploye
+	 * @return
+	 */
 	public static Employe getEmploye(String idEmploye) {
 		Employe employe = new Employe(idEmploye);
 		return getEmploye(employe);
 	}
 	// ENRICK - Get Employé avec en paramètre un objet de type employé
+	
 	public static Employe getEmploye(Employe employe) {
 		Employe trouve = null;
 		if (employes.contains(employe)) trouve = employes.get(employes.indexOf(employe));
@@ -124,17 +134,32 @@ public class Dao {
 		return modifOk;		
 	}
 
-	// ENRICK - Array list des employés 
+	// ENRICK - Array list des employés
+	 // public static ArrayList<Employe>  employes  = initEmployes();
+	
 	private static ArrayList<Employe> initEmployes() {
 		
-	ArrayList<Employe> list 	= new ArrayList<Employe>();
-	list.add(new Employe("1","RE12", "Monsieur", "Dupont", "Joe", "12/03/1999", "dupont.joe@mail.com","dupjore12", "06.12.23.34.45", "24 rue St-Sébastien", "13006", "Marseille"));
-	list.add(new Employe("2","SA01", "Madame", "Dupont", "Jeanne", "21/06/2008","dupont.j@mail.com","dupjesa01","07.12.12.12.12", "123 avenue de la Coupe", "13100", "Aix-en-Provence"));
-	list.add(new Employe("3","SA17", "Monsieur", "Machin", "Charles", "10/08/1977","machin_Charles@email.com","machasa17","06.10.20.30.40", "98 boulevard J. reno", "84120", "Pertuis"));
-	list.add(new Employe("4","SA12", "Monsieur", "Durrant", "John", "30/03/1989","durj@mail.com","durjosa12","07.01.02.03.04", "2 cours St-Nicolas", "06006", "Nice"));
-	list.add(new Employe("5","SA45", "Madame", "Truc", "Gin", "10/08/1977","trgin77@email.com","trugisa45","06.11.22.33.44", "98 boulevard J. reno", "13028", "La ciotat"));
-	list.add(new Employe("6","RE05", "Madame", "Hello", "Sarrah", "16/10/1997","helloS@mailme.com","helsare05","06.11.22.33.44", "123 avenue de la gd Motte", "83170" , "Brignole"));
-	return list;
+		// Instatiation des employés: Soit de type Responsable, soit de type Salarié
+		Employe res01 = new Responsable("01", "Mr", "Dupont", "Joe", LocalDate.parse("1976-04-21"), "dupont.joe@mail.com", "dupjo12", "06.12.23.34.45", new EmployeCoordonnees("23 rue jolit", 13006, "Marseille"));
+		Employe sal01 = new Salarie("001", "Mme", "Durant", "Josie", LocalDate.parse("1986-06-11"), "durant.josie@mail.fr", "durjo20", "06.15.23.34.45", new EmployeCoordonnees("23 avenue Grande", 06006, "Nice"));
+		Employe sal02 = new Salarie("002", "Mr", "Machin", "Jacques", LocalDate.parse("2000-02-07"), "machin_j@mail.com", "macj98", "06.23.78.36.45", new EmployeCoordonnees("23 cours de Napoléon rouge", 69000, "Lyon"));
+		Employe sal03 = new Salarie("003", "Mme", "Macpol", "Michelle", LocalDate.parse("1989-12-25"), "macMic@email.fr", "macpo76", "06.63.83.34.45", new EmployeCoordonnees("23 boulevard du cheval rouge", 93200, "Saint-Denis"));
+		Employe sal04 = new Salarie("004", "Mme", "Tatata", "Agathe", LocalDate.parse("2009-08-08"), "tatata_agathe@mail.com", "tataA08", "07.19.90.34.45", new EmployeCoordonnees("23 rue de la cours des grands", 95400, "Villier-le-Bel"));
+		Employe sal05 = new Salarie("005", "Mr", "Totoo", "Jean-Charles", LocalDate.parse("2001-01-01"), "ttjc@email.com", "ttjch01", "06.23.34.11.99", new EmployeCoordonnees("23 boulevard du cheval rouge", 15004, "Aurillac"));
+		Employe res02 = new Responsable("02", "Mr", "Truc", "Gil", LocalDate.parse("1977-05-16"), "truc_gil@mail.com", "trgi12", "07.12.12.34.67", new EmployeCoordonnees("32 cours bellevue", 14098, "Pertuis"));
+				
+		// Création de la liste des employés
+		ArrayList<Employe> employes	= new ArrayList<Employe>();
+		employes.add(res01);
+		// System.out.println("Dans DAO : "+list.get(0));
+		employes.add(sal01);
+		employes.add(sal04);
+		employes.add(sal05);
+		employes.add(sal03);
+		employes.add(sal02);
+		employes.add(res02);
+		
+		return employes;
 }
 // FIN DE CODE ENRICK	
 

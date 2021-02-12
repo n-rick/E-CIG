@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="metier.Employe" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="dao.Dao" %>
+<%@ page import="metier.Employe"%>
+<%@ page import="metier.EmployeCoordonnees"%>
+<%@ page import="metier.Responsable"%>
+<%@ page import="metier.Salarie"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="dao.Dao"%>
 <jsp:useBean id="employe" class="metier.Employe" scope="session" />
 <jsp:useBean id="employeSelec" class="metier.Employe" scope="request" />
-<jsp:useBean id="message" class="java.lang.String" scope="request"/>
-<% ArrayList<Employe> employes = (ArrayList<Employe>) request.getAttribute("employes"); %>
+<jsp:useBean id="message" class="java.lang.String" scope="request" />
+<%
+	ArrayList<Employe> employes = (ArrayList<Employe>) request.getAttribute("employes");
+%>
+<%-- <%
+	System.out.println("dans la JSP Liste Employé : " + employeSelec);
+%> --%>
 
-<% request.setAttribute("titre", "liste des employés");%> 
+<%
+	request.setAttribute("titre", "liste des employés");
+%>
 
 <!-- head bootstrap de la page -->
 <%@ include file="/WEB-INF/include/head.jsp"%>
@@ -43,9 +53,9 @@
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-pills flex-column">
-							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye() %></p></li>
-							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye() %></p></li>
-							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye() %></p></li>
+							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye()%></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye()%></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye()%></p></li>
 						</ul>
 					</div>
 				</div>
@@ -60,7 +70,7 @@
 				<div class="box rounded">
 					<h3>
 						Liste de l'ensemble des employ&eacute;s <a
-							href="<%=request.getContextPath()%>/e-cig/creaEmp">
+							href="<%=request.getContextPath()%>/WEB-INF/vue/employe/creationEmploye.jsp">
 							<button type="button"
 								class="btn btn-outline-primary navbar-toggler btn-lg">
 								<span class="sr-only">cr&eacute;er</span> <i
@@ -70,31 +80,46 @@
 					</h3>
 					<hr>
 					<!--  DEBUT FOMRULAIRE MODIFICATION D'UN EMPLOYE -->
-					<div id="modif" class="collapse">
+					<!--  !!!!!!!!!! DM !!!!!!!!!!!!!!!!!!  show affiche le formulaire -->
+					<div id="modif"
+						class="collapse <%if (employeSelec.getIdEmploye() != null) {%> show <%}%>">
+						<!--  !!!!!!!!!! DM !!!!!!!!!!!!!!!!!!  show affiche le formulaire -->
 						<div class="container">
 
 							<div class="box">
-								<form role="modif" action="<%=request.getContextPath()%>/modif" method="post">
+								<form role="modif" action="<%=request.getContextPath()%>/modif"
+									method="post">
 									<div class="form-group">
 										<div class="row">
-											<div class="col-md-4">
-												<label for="idEmploye">Identifiant de l'employ&eacute;</label>
-												<input id="idEmploye" class="form-control bg-secondary"
-													type="text" name="refEmploye" value="<%=employeSelec.getIdEmploye()%>" disabled>
+											<div class="col-md-2">
+												<label for="idEmploye">Identifiant de
+													l'employ&eacute;</label> <input id="idEmploye"
+													class="form-control bg-secondary" type="text"
+													name="idEmploye" value="<%=employeSelec.getIdEmploye()%>"
+													disabled>
 											</div>
-											<div class="col-md-4 text-center d-flex align-items-md-center">
+											<div class="col-md-2">
+												<label for="refEmploye">R&eacute;f. de
+													l'employ&eacute;</label> <input id="refEmploye"
+													class="form-control bg-secondary" type="text"
+													name="refEmploye" value="<%=employeSelec.getRefEmploye()%>"
+													disabled>
+											</div>
+											<div
+												class="col-md-4 text-center d-flex align-items-md-center">
 												<div
 													class="custom-control custom-control-inline custom-radio">
 													<input type="radio" class="custom-control-input"
-														id="civRadioMonsieur" name="radioBtnEmploye"> <label
-														class="custom-control-label" for="civRadioMonsieur">Monsieur</label>
+														id="civRadioMonsieur" name="radioBtnEmploye" 
+														<%if (employeSelec.getCivEmploye()=="Mr") { %> checked<%}%> disabled>
+														<label class="custom-control-label" for="civRadioMonsieur">Monsieur</label>
 												</div>
 												<div
 													class="custom-control custom-control-inline custom-radio">
 													<input type="radio" class="custom-control-input"
-														id="civRadioMadame" name="radioBtnEmploye"> <label
-														class="custom-control-label" for="civRadioMadame" checked
-														disabled>Madame</label>
+														id="civRadioMadame" name="radioBtnEmploye" 
+														<%if (employeSelec.getCivEmploye()=="Mme") { %>checked<%} %> disabled>
+														<label class="custom-control-label" for="civRadioMadame">Madame</label>
 												</div>
 											</div>
 										</div>
@@ -104,20 +129,24 @@
 										<div class="row">
 											<div class="col-md-4">
 												<label for="nomEmploye">Nom</label> <input id="nomEmploye"
-													class="form-control bg-secondary" type="text" name="nomEmploye"
-													placeholder="nomEmploye" value="<%=employeSelec.getNomEmploye() %>" size="50" disabled>
+													class="form-control bg-secondary" type="text"
+													name="nomEmploye" placeholder="nom"
+													value="<%=employeSelec.getNomEmploye()%>" size="50"
+													disabled>
 											</div>
 											<div class="col-md-4">
 												<label for="prenomEmploye">Pr&eacute;nom usuel</label> <input
 													id="prenom" class="form-control bg-secondary" type="text"
-													name="prenomEmploye" placeholder="prénom" size="50" value="<%=employeSelec.getPrenomEmploye() %>"
-													disabled>
+													name="prenomEmploye" placeholder="prénom" size="50"
+													value="<%=employeSelec.getPrenomEmploye()%>" disabled>
 											</div>
 											<div class="col-md-3">
 												<label for="ageEmploye">Date de naissance</label> <input
-													id="ageEmploye" class="form-control bg-secondary" type="date" 
-													name="ageEmploye" placeholder="date" value="<%=employeSelec.getNumTelEmploye() %>"
-       												min="01/01/1970" max="31/12/2000" required pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" disabled>
+													id="ageEmploye" class="form-control bg-secondary"
+													type="date" name="ageEmploye" placeholder="date"
+													value="<%=employeSelec.getDateNaissEmploye()%>"
+													min="01/01/1970" max="31/12/2000" required
+													pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" disabled>
 											</div>
 										</div>
 									</div>
@@ -126,36 +155,54 @@
 											<div class="col-md-6">
 												<label for="mail">Mail</label> <input id="mail"
 													class="form-control" type="text" name="mailEmploye"
-													placeholder="votremail@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
-													size="60" value="<%= employeSelec.getEmailEmploye()%>">
+													placeholder="votremail@email.com"
+													pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" size="60"
+													value="<%=employeSelec.getEmailEmploye()%>">
 											</div>
 											<div class="col-md-3">
-												<label for="tel">T&eacute;l&eacute;phone portable
-												</label> <input id="tel" class="form-control" type="tel"
+												<label for="tel">T&eacute;l&eacute;phone portable </label> <input
+													id="tel" class="form-control" type="tel"
 													name="portableEmploye" placeholder="06.12.23.34.45"
-													value="<%=employeSelec.getNumTelEmploye() %>" pattern="[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}">
+													value="<%=employeSelec.getNumTelEmploye()%>"
+													pattern="[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}.[0-9]{2}">
 											</div>
 										</div>
 									</div>
 									<div class="form-group">
 										<div class="row">
 											<div class="col-md-6">
-												<label for="adrEmploye">Adresse</label> <input
-													id="adrEmploye" class="form-control" type="text"
-													name="adrEmploye" placeholder="Entrer votre adresse"
-													value="<%=employeSelec.getAdressRueEmploye() %> " size="70">
+												<label for="rueEmploye">Adresse</label> <input
+													id="rueEmploye" class="form-control" type="text"
+													name="rueEmploye" placeholder="Entrer votre adresse"
+													<% if (employeSelec.getCoordonnee() != null)  { %>
+														value="<%=employeSelec.getCoordonnee().getAdressRueEmploye()%> "
+													<% } else { %>
+														value=""
+													<% } %>
+													size="70">
 											</div>
 											<div class="col-md-2">
 												<label for="cdpEmploye">Code postal</label> <input
 													id="cdpEmploye" class="form-control" type="number"
-													name="cdpEmploye" placeholder="13006" value="<%=employeSelec.getCdpEmploye()%>"
+													name="cdpEmploye" placeholder="13006"
+													<% if (employeSelec.getCoordonnee() != null)  { %>
+														value="<%=employeSelec.getCoordonnee().getCdpEmploye()%>"
+													<% } else { %>
+														value=""
+													<% } %>
+													
 													size="5" min="01000" max="97400">
 											</div>
 											<div class="col-md-4">
 												<label for="villeEmploye">Ville</label> <input
 													id="villeEmploye" class="form-control" type="text"
 													name="villeEmploye" placeholder="Marseille" size="60"
-													value="<%=employeSelec.getNomVille() %> ">
+												    <% if (employeSelec.getCoordonnee() != null)  { %>
+														value="<%=employeSelec.getCoordonnee().getNomVille()%> "
+													<% } else { %>
+														value=""
+													<% } %>
+													>
 											</div>
 
 										</div>
@@ -164,7 +211,7 @@
 										title="Modification effectuée!"
 										data-bs-content="La modification a bien été prise en compte. Merci."
 										data-toggle="collapse" data-target="#modif" type="submit"
-										formaction="<%=request.getContextPath() %>/admin/modif"
+										formaction="<%=request.getContextPath()%>/admin/modif"
 										class="btn btn-primary">Modifier</button>
 								</form>
 							</div>
@@ -189,37 +236,40 @@
 							</tr>
 						</thead>
 						<tbody>
-						<% for (Employe employ : employes) { %>
+							<%
+								for (Employe employ : employes) {
+							%>
 							<tr>
 								<th scope="row"><input name="selectEmploye" type="radio"
-									value="<%=employ.getIdEmploye() %>"></th>
+									value="<%=employ.getIdEmploye()%>"></th>
 								<td><%=employ.getRefEmploye()%></td>
 								<td><%=employ.getNomEmploye()%></td>
-								<td><%=employ.getPrenomEmploye() %></td>
-								<td><%=employ.getEmailEmploye() %></td>
-								<td><%=employ.getNomVille() %></td>
+								<td><%=employ.getPrenomEmploye()%></td>
+								<td><%=employ.getEmailEmploye()%></td>
+								<td><%=employ.getCoordonnee().getNomVille()%></td>
 								<td>
 									<div>
-										<button type="submit" data-toggle="collapse"
+										<button id="btnModif" data-toggle="collapse"
 											data-target="#modif" class="btn btn-info navbar-toggler"
-											formaction="<%=request.getContextPath() %>/admin/affich">
+											formaction="<%=request.getContextPath()%>/admin/affich">
 											<span class="sr-only">modifier</span> <i
 												class="fa fa-pencil-square-o"></i>
 										</button>
 										<button class="btn btn-danger navbar-toggler"
 											data-bs-toggle="popover" title="Suppression effectuée!"
 											data-bs-content="La suppression a bien été prise en compte. Merci."
-											type="submit" id="btnSupp" formaction="<%=request.getContextPath() %>/admin/supp">
-											<input name="selectEmploye" type="radio"
-									value="<%=employ.getIdEmploye() %>">
+											id="btnSupp"
+											formaction="<%=request.getContextPath()%>/admin/supp">
 											<span class="sr-only">supprimer</span> <i
 												class="fa fa-user-times"></i>
 										</button>
 									</div>
 								</td>
 							</tr>
-							<% } %>
-							</tbody>
+							<%
+								}
+							%>
+						</tbody>
 					</table>
 				</form>
 				<!--  FIN DE LISTE -->
