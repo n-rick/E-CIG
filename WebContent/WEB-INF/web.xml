@@ -10,17 +10,20 @@
 		<welcome-file>e-cig/</welcome-file>
 	</welcome-file-list>
 
-	
-
-	<context-param>
+		<context-param>
 		<param-name>errorPage</param-name>
 		<param-value>/WEB-INF/vue/erreur/errorPage.jsp</param-value>
 	</context-param>
+	
+	  <error-page>
+  	<error-code>404</error-code>
+	<location>/vue/error/404.jsp</location>
+  </error-page>
+	
+	  <error-page>
+  	<exception-type>java.lang.Throwable</exception-type>
+  	<location>/vue/error/pageErrorData.jsp</location>
+  </error-page>
 
 
-<!-- 	<taglib>
-		<taglib-uri>http://java.sun.com/jstl/core</taglib-uri>
-		<taglib-location>/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar</taglib-location>
-	</taglib>
- -->
 </web-app>

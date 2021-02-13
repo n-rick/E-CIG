@@ -70,7 +70,7 @@ public class GererIdentification extends HttpServlet {
 				
 		// Sinon j'affiche une page d'erreur
 		} else {
-			request.setAttribute("message", "Cet utilisateur et mot de passe n'existent pas");
+			request.setAttribute("message", "Cet utilisateur et le mot de passe n'existe pas");
 			String chemin = this.getServletContext().getInitParameter("errorPage");
 			getServletContext().getRequestDispatcher( chemin ).forward( request, response );
 

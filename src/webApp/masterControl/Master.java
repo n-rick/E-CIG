@@ -50,7 +50,7 @@ public class Master extends HttpServlet {
 		else if (path.endsWith("/profil")) goProfil(request, response);
 
 		else {
-				request.setAttribute("message", "404 PAGE NOT FOUND");
+				request.setAttribute("message", "La page désirée n'existe pas! veuillez retournez à l'accueil");
 				String pathError = this.getServletContext().getInitParameter("errorPage");
 				disp = request.getRequestDispatcher(pathError);
 				disp.forward(request, response);

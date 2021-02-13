@@ -6,9 +6,16 @@
 <%@ page import="metier.Salarie"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="dao.Dao"%>
+<%@ page import="java.time.LocalDate" %>
+<%@ page errorPage="errorPage.jsp" %>
 <jsp:useBean id="employe" class="metier.Employe" scope="session" />
 <jsp:useBean id="employeSelec" class="metier.Employe" scope="request" />
-<jsp:useBean id="message" class="java.lang.String" scope="request" />
+<%-- <jsp:useBean id="message" class="java.lang.String" scope="request" /> --%>
+		<%
+				String message = null;
+			if (request.getAttribute("message") != null) {
+				message = (String) request.getAttribute("message");
+			} %>
 <%
 	ArrayList<Employe> employes = (ArrayList<Employe>) request.getAttribute("employes");
 %>
@@ -55,7 +62,6 @@
 						<ul class="nav nav-pills flex-column">
 							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye()%></p></li>
 							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye()%></p></li>
-							<li><p class="text-info fw-bold" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" ><%=employe.getDateNaissEmploye()%></p></li>
 						</ul>
 					</div>
 				</div>

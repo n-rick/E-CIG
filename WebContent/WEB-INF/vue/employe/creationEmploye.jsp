@@ -7,11 +7,17 @@
 <%@ page import="dao.Dao"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.time.LocalDate" %>
+<%@ page errorPage="errorPage.jsp" %>
 <jsp:useBean id="employe" class="metier.Employe" scope="session" />
-<jsp:useBean id="message" class="java.lang.String" scope="request" />
+<%-- <jsp:useBean id="message" class="java.lang.String" scope="request" /> --%>
 <%-- <%
 	System.out.println("dans la JSP Création / Employé en session : " + employe);
 %> --%>
+		<%
+				String message = null;
+			if (request.getAttribute("message") != null) {
+				message = (String) request.getAttribute("message");
+			} %>
 <%
 	request.setAttribute("titre", "création d'un employé");
 %>
@@ -52,12 +58,11 @@
 						<ul class="nav nav-pills flex-column">
 							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye()%></p></li>
 							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye()%></p></li>
-							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye()%></p></li>
 						</ul>
 					</div>
 					<div class="card-boy">
 						<ul class="nav nav-pills flex-column">
-							<li><a href="<%=request.getContextPath()%>/e-cig/admin/list">
+							<li><a href="<%=request.getContextPath()%>/admin/list">
 									<button type="button"
 										class="btn btn-outline-primary navbar-toggler btn-lg">Voir
 										la liste des employ&eacute;s</button>
@@ -80,7 +85,7 @@
 								<div class="col-md-4">
 									<label for="idEmploye">Identifiant de l'employ&eacute;</label>
 									<input id="idEmploye" class="form-control" type="text"
-										name="idEmploye" placeholder="ex: 006" value="006">
+										name="idEmploye" placeholder="ex: 006" value="006" disabled>
 								</div>
 								<div class="col-md-4 text-center d-flex align-items-md-center">
 									<div class="custom-control custom-control-inline custom-radio">
