@@ -14,5 +14,4 @@ class TestEnrick {
 	void testCreerRef() throws RefInvalidException {
 		fail("Not yet implemented");
 	}
-
 }

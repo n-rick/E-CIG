@@ -55,7 +55,7 @@
 						<ul class="nav nav-pills flex-column">
 							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye()%></p></li>
 							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye()%></p></li>
-							<li><p class="text-info fw-bold"><%=employe.getDateNaissEmploye()%></p></li>
+							<li><p class="text-info fw-bold" pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" ><%=employe.getDateNaissEmploye()%></p></li>
 						</ul>
 					</div>
 				</div>
@@ -70,7 +70,7 @@
 				<div class="box rounded">
 					<h3>
 						Liste de l'ensemble des employ&eacute;s <a
-							href="<%=request.getContextPath()%>/WEB-INF/vue/employe/creationEmploye.jsp">
+							href="<%=request.getContextPath()%>/admin/creaEmp">
 							<button type="button"
 								class="btn btn-outline-primary navbar-toggler btn-lg">
 								<span class="sr-only">cr&eacute;er</span> <i
@@ -91,12 +91,12 @@
 									method="post">
 									<div class="form-group">
 										<div class="row">
-											<div class="col-md-2">
+											<div class="col-md-4">
 												<label for="idEmploye">Identifiant de
 													l'employ&eacute;</label> <input id="idEmploye"
 													class="form-control bg-secondary" type="text"
 													name="idEmploye" value="<%=employeSelec.getIdEmploye()%>"
-													disabled>
+													readonly>
 											</div>
 											<div class="col-md-2">
 												<label for="refEmploye">R&eacute;f. de
@@ -145,7 +145,7 @@
 													id="ageEmploye" class="form-control bg-secondary"
 													type="date" name="ageEmploye" placeholder="date"
 													value="<%=employeSelec.getDateNaissEmploye()%>"
-													min="01/01/1970" max="31/12/2000" required
+													min="01/01/1970" max="31/12/2002" required
 													pattern="[0-9]{2}/[0-9]{2}/[0-9]{4}" disabled>
 											</div>
 										</div>

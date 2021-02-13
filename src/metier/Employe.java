@@ -6,8 +6,17 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
+/**
+ * 
+ * @author Enrick
+ * <p><b>Description : </b>Class metier Employe </p>
+ *
+ */
+
 public class Employe {
 	
+	// déclaration des variables utiles à la la class mère Employe	
 	private 	String				idEmploye;
 	private		String				refEmploye;
 	private		String				civEmploye;
@@ -25,31 +34,36 @@ public class Employe {
 	}
 	
 	/**
-	 * <b>Constructeur par défaut</b>
-	 * @param idEmploye
-	 * @param nomEmploye
+	 * <b>Constructeur de la class Employe par défaut :</b>
+	 * @param idEmploye : 
+	 * 					Identifiant de l'employé.
+	 * @param nomEmploye : 
+	 * 					Nom de famille de l'employé.
+	 * @param coordonnee  :
+	 * 					Coordonnée de l'employé sous forme (libellé de la rue, cdp, nom de la ville).
 	 */
 	// Constructeur avec Id, pour modification et suppression par ID:
 	public Employe (String idEmploye) {
 		this.idEmploye = idEmploye;
 		this.nomEmploye = "inconnu";
 		this.coordonnee = new EmployeCoordonnees("inconnue", 12345, "inconnue"); // coordonnées avec des valeurs! 
-	}// Constructeur standard avec initialisation des champs
-
+	}
 
 
 	/**
-	 * @param idEmploye
-	 * @param civEmploye
-	 * @param nomEmploye
-	 * @param prenomEmploye
-	 * @param dateNaissEmploye
-	 * @param emailEmploye
-	 * @param mdpEmploye
-	 * @param numTelEmploye
-	 * @param coordonnee
+	 * <b>Constructeur de la class Employe avec paramètre sauf refEmploye :</b>
+	 * <p><b>NOTA : </b>RefEmploye correspond à la référence de l'employé en fonction de statut.</p>
+	 * @param idEmploye : identifiant de l'empoyé.
+	 * @param civEmploye : civilité de l'employé.
+	 * @param nomEmploye : nom de l'employé.
+	 * @param prenomEmploye : prénom de l'employé.
+	 * @param dateNaissEmploye : date de naissance de l'employé (format : jj-mm-aaaa).
+	 * @param emailEmploye : émail de l'employé.
+	 * @param mdpEmploye : mot de passe de l'employé
+	 * @param numTelEmploye : numéro de téléphone de l'employé
+	 * @param coordonnee : coordonnée de l'employé sous forme (libellé de la rue, cdp, nom de la ville).
 	 */
-	
+	// Constructeur standard avec initialisation des champs
 	public Employe(String idEmploye, String civEmploye, String nomEmploye, String prenomEmploye,
 			LocalDate dateNaissEmploye, String emailEmploye, String mdpEmploye, String numTelEmploye,
 			EmployeCoordonnees coordonnee) {
@@ -66,15 +80,18 @@ public class Employe {
 	}
 	
 	/**
-	 * @param idEmploye
-	 * @param refEmploye
-	 * @param civEmploye
-	 * @param nomEmploye
-	 * @param prenomEmploye
-	 * @param dateNaissEmploye
-	 * @param emailEmploye
-	 * @param numTelEmploye
-	 * @param coordonnee
+	 * <b>Contructeur de la Class Employé :</b>
+	 * <p>Ajout du paramètre refEmploye.</p>
+	 * @param idEmploye  		: identifiant de l'employé.
+	 * @param refEmploye 		: référence de l'employé dans la société.
+	 * @param civEmploye 		: civilité de l'employé.
+	 * @param nomEmploye 		: nom de l'employé.
+	 * @param prenomEmploye 	: prénom de l'employé.
+	 * @param dateNaissEmploye 	: date de naissance de l'employé (format : jj-mm-aaaa).
+	 * @param emailEmploye 		: adresse mail de l'employé.
+	 * @param mdpEmploye 		: mot de passe de l'employé
+	 * @param numTelEmploye 	: numéro de téléphone de l'employé.
+	 * @param coordonnee 		: coordonnée de l'employé sous forme (libellé de la rue, cdp, nom de la ville).
 	 */
 	public Employe(String idEmploye, String refEmploye, String civEmploye, String nomEmploye,
 			String prenomEmploye, LocalDate dateNaissEmploye, String emailEmploye,
@@ -89,12 +106,25 @@ public class Employe {
 		this.numTelEmploye = numTelEmploye;
 		this.coordonnee = coordonnee;
 	}
-
+	
+	/**
+	 * <b>Description de la méthode creerRef()</b>
+	 * <p>Cette méthode permet de créer la référence d'un employé en fonction de son statut.</p>
+	 * <p>Elle ne prend aucun paramètre en entrée et retourn le statut de l'employé. Si celui-ci
+	 * n'est n'y un Responsable, ni un Salarié, le statut de l'employé commencera par la chaîne de caractère
+	 * 'EM'.</p>
+	 * <p>Cette méthode ne prend aucun paramètre en entrée. Et affiche en sortie le statut de l'employé.</p>
+	 * <p>Condition : le nom de l'employé ne doit pas être null, et sa taille doit être supérieur à 1.</p>
+	 * <p> @return :  statut (une chaîne de caratère concaténée avec la chaine de caractère 'EM' 
+	 * 	+ Les 2 premières initiales du nom de famille de l'empoyé
+	 * 	+ le chiffre 0
+	 * 	+ le mois de naissance de l'employé).</p>
+	 **/
 	// Méthode créant la référence de l'employé en fonction de son statut
 	public String creerRef() {
 		String statut = null;
 		if (getNomEmploye() != null && getNomEmploye().length() > 1) 
-			statut = "00" + getNomEmploye().toUpperCase().trim().substring(0,2) + getDateNaissEmploye().getMonthValue();
+			statut = "EM" + getNomEmploye().toUpperCase().trim().substring(0,2) + 0 + getDateNaissEmploye().getMonthValue();
 		
 		return statut;
 	}
@@ -140,8 +170,7 @@ public class Employe {
 		return coordonnee;
 	}
 	
-	// SETTERS
-	
+	// SETTERS	
 	public void setIdEmploye(String idEmploye) {
 		this.idEmploye = idEmploye;
 	}
@@ -192,7 +221,7 @@ public class Employe {
 	}
 
 	// Redéfinition de la méthode EQUALS, pour vérification entre deux
-	// objets de type Employé:
+	// objets de type Employé par leur identifiants:
 	@Override
 	public boolean equals(Object obj) {
 		boolean retour = false;
@@ -203,7 +232,7 @@ public class Employe {
 		return retour;
 	} 
 	
-	// Affichage (uniquement pour des tests, ou autre )
+	// Méthode toString surchargée pour affichage (uniquement pour des tests, ou autre )
 	@Override
 	public String toString() {
 		return "Employé N° : " + idEmploye + "\n réf.: "+refEmploye+ "\n civilité : " + civEmploye +
@@ -213,14 +242,4 @@ public class Employe {
 				+ "\n emailEmploye : " + emailEmploye + ", mdpEmploye : " + mdpEmploye + "\n numTelEmploye : "
 				+ numTelEmploye + "\n coordonnee : " + coordonnee+"\n";
 	}
-	
-//	// test
-//	@Override
-//	public String toString() {
-//		return "Employé N° : " + idEmploye + "\n réf.: "+refEmploye+ "\n civilité : " + civEmploye +
-//				"\n nom de l'Employe : " + nomEmploye
-//				+ ", prenom de l'employe : " + prenomEmploye
-//				+ "\n emailEmploye : " + emailEmploye + ", mdpEmploye : " + mdpEmploye + "\n numTelEmploye : "
-//				+ numTelEmploye;
-//	}
 }

@@ -1,7 +1,11 @@
 package webApp.gestionEmploye;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,6 +17,8 @@ import javax.servlet.http.HttpSession;
 
 import dao.Dao;
 import metier.Employe;
+import metier.EmployeCoordonnees;
+import metier.Salarie;
 
 /**
  * Servlet implementation class EmployeControl
@@ -32,6 +38,7 @@ public class EmployeControl extends HttpServlet {
 
 		if (request.getPathInfo() == null || request.getPathInfo().equals("/"))			goAccueil(request, response);
 		else if (request.getPathInfo().equals("/list"))									goListEmploye(request, response);
+		else if (request.getPathInfo().equals("/creaEmp"))								goCreaEmploye(request,response);
 		else {
 			request.setAttribute("message", "Une erreur c'est produite! Veuillez retourner à l'accueil");
 			disp = request.getRequestDispatcher(this.getServletContext().getInitParameter("pageError"));
@@ -39,20 +46,71 @@ public class EmployeControl extends HttpServlet {
 		}
 	}
 
+	private void goCreaEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+		System.out.println("Dans EmployeControl.java - goCreaEmployé ");
+		disp = request.getRequestDispatcher("/WEB-INF/vue/employe/creationEmploye.jsp");
+		disp.forward(request, response);
+		
+	}
+
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)	throws ServletException, IOException {
 		System.out.println("Dans controleur employe acces via /admin/ en doPost");
 
 		if (request.getPathInfo() == null || request.getPathInfo().equals("/"))			goAccueil(request, response);
 		else if (request.getPathInfo().equals("/affich"))								goAffichEmploye(request, response);
 		else if (request.getPathInfo().equals("/modif"))								doModif(request, response);
 		else if (request.getPathInfo().equals("/supp"))									doSupp(request, response);
+		else if (request.getPathInfo().equals("/crea"))									doCrea(request, response);
 		else {
 			request.setAttribute("message", "Une erreur c'est produite! Veuillez retourner à l'accueil");
 			disp = request.getRequestDispatcher(this.getServletContext().getInitParameter("pageError"));
 			disp.forward(request, response);
 		}
+	}
+	
+	private void goAccueil(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		System.out.println("Dans EmployeControl - Go accueil");
+		disp = request.getRequestDispatcher("/index.jsp");
+		disp.forward(request, response);
+
+	}
+
+	private void doCrea(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("EmployControl.java - dans doCrea");
+		
+		// Récupération de la session de l'employé
+//		HttpSession sessionEmploye = request.getSession(true);
+//		Employe employeEnSession = (Employe) sessionEmploye.getAttribute("employe");
+		
+		String idE = request.getParameter("idEmploye");
+		String sexE = request.getParameter("radioBtnEmploye");	
+		String nomE = request.getParameter("nomEmploye");
+		String prenomE = request.getParameter("prenomEmploye");
+		String dNaissE = request.getParameter("ageEmploye");
+		String mailE = request.getParameter("mailEmploye");
+		String mdpE = request.getParameter("mdpEmploye");
+		String telE = request.getParameter("portableEmploye");
+		String rueE = request.getParameter("adrEmploye");
+		int cdpE = Integer.parseInt(request.getParameter("cdpEmploye"));
+		String villeE = request.getParameter("villeEmploye");
+		
+		System.err.println(sexE);
+		System.err.println(mailE);
+		LocalDate dateNaiss = LocalDate.parse(dNaissE, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+//		Employe sal04 = new Salarie("004", "Mme", "Tatata", "Agathe", LocalDate.parse("2009-08-08"), 
+//		"tatata_agathe@mail.com", "tataA08", "07.19.90.34.45",	
+//		new EmployeCoordonnees("23 rue de la cours des grands", 95400, "Villier-le-Bel"));
+		Employe newSalarie = new Salarie(idE, sexE, nomE, prenomE, dateNaiss, mailE, mdpE, telE, new EmployeCoordonnees(rueE, cdpE, villeE));
+		//System.out.println(newSalarie.getPrenomEmploye());
+		System.err.println(newSalarie.getRefEmploye());
+		
+		Dao.employes.add(newSalarie);
+		disp = request.getRequestDispatcher("/admin/affich");
+		disp.forward(request, response);
+		
+		
 	}
 
 	private void goAffichEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -103,67 +161,39 @@ public class EmployeControl extends HttpServlet {
 
 	}
 
-	private void doModif(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO A refaire!!
+	private void doModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		System.out.println("Dans Go Modif");
+		System.out.println("Dans do Modif");
 		request.setAttribute("message", "");
-////		// Récupération de la session de l'employé
-////		HttpSession sessionEmploye = request.getSession(true);
-////		Employe employeEnSession = (Employe) sessionEmploye.getAttribute("employe");
-////		// Récupération de l'employe sélectionné dans la liste
-////		Employe employe = Dao.getEmploye(employeEnSession.getIdEmploye());
-////		
-////		request.setAttribute("employeSelec", employe);
-//		//RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/vue/");
-//		 // méthode modifier avec l'ID.
-//		// récupération des données grâce à l'ID de l'employé
-//		String idE			= 	request.getParameter("idEmploye");
-//		System.out.println("l'id est : "+idE);
-//		String refE			= 	request.getParameter("refEmploye");
-//		System.out.println("la ref est : "+refE);
-//		String civE			= 	request.getParameter("radioBtnEmploye");
-//		System.out.println("Monsieur / Madame : "+civE);
-//		String nomE			= 	request.getParameter("nomEmploye").strip();
-//		System.out.println("le nom est : "+nomE);
-//		String prenomE		= 	request.getParameter("prenomEmploye").strip();
-//		System.out.println("le prénom est : "+nomE);
-//		LocalDate ddnaissE	= 	LocalDate.parse(request.getParameter("ageEmploye"));
-//		System.out.println("la date est : "+ddnaissE);
-//		String mailE		= 	request.getParameter("mailEmploye").strip();
-//		System.out.println("le mail est : "+mailE);
-//		String telE			= 	request.getParameter("portableEmploye");
-//		System.out.println("le tél est : "+telE);
-//		String rueE			= 	request.getParameter("rueEmploye").strip();		
-//		System.out.println("la rue est : "+rueE);
-//		int cdpE;
-//		try {
-//			cdpE 			= 	Integer.parseInt(request.getParameter("cdpEmploye"));
-//		} catch (NumberFormatException nbfe) {
-//			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Erreur ou Code postal invalid");
-//		}
-//		System.out.println("le CDP est : "+cdpE);
-//		String villeE		=	request.getParameter("villeEmploye").strip();
-//		System.out.println("la ville est : "+villeE);
-//		if (refE.strip().startsWith("RE", 0)) {
-//			Employe employe = new Responsable(idE, civE, nomE, prenomE, LocalDate.parse("ddNaissE"), mailE, telE, new EmployeCoordonnees("rueE", cdpE, "villeE"));	
-//		} else if(refE.strip().startsWith("SA",0)) {
-//				Employe employe = new Salarie(idE, civE, nomE, prenomE, LocalDate.parse("ddNaissE"), mailE, telE, new EmployeCoordonnees("rueE",cdpE,"villeE"));
-//		};
-//		// Modification de données
-//		boolean modifOk = Dao.modifEmploye(employe);
-//		
-//		//rediriger vers la liste des employés
-//		if (modifOk) request.setAttribute("message", "L'employe N°: " + idE +" avec la réf.: "+refE+" a été modifié avec succès!");
-//		else	request.setAttribute("message", "L'employe "+ idE + " n'existe pas!");
-//
-//		goListEmploye(request, response);
-//		
+		
+		String idE = request.getParameter("idEmploye");
+		//System.out.println(idE);
+		String mailE = request.getParameter("mailEmploye").strip();
+		//System.out.println(mailE);
+		String telE = request.getParameter("portableEmploye").strip();
+		//System.out.println(telE);
+		String rueE = request.getParameter("rueEmploye").strip();
+		//System.out.println(rueE);
+		int cdpE = Integer.parseInt(request.getParameter("cdpEmploye"));
+		//System.out.println(cdpE);
+		String villeE = request.getParameter("villeEmploye").strip();
+		//System.out.println(villeE);
+		
+		for (Employe emp : Dao.employes ) {
+			if (idE.equals(emp.getIdEmploye())) {
+				emp.setEmailEmploye(mailE);
+				emp.setNumTelEmploye(telE);
+				emp.getCoordonnee().setAdressRueEmploye(rueE);
+				emp.getCoordonnee().setCdpEmploye(cdpE);
+				emp.getCoordonnee().setNomVille(villeE);
+			}
+		}
+		
+		disp = request.getRequestDispatcher("/admin/affich");
+		disp.forward(request, response);
 	}
 
-	private void goListEmploye(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	private void goListEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("dans EmployeControle - Méthode goListEmploye");
 		String cheminASuivre = null;
 		// si la liste est vide
@@ -179,14 +209,6 @@ public class EmployeControl extends HttpServlet {
 			cheminASuivre = "/WEB-INF/vue/employe/listeEmploye.jsp";
 		}
 		disp = request.getRequestDispatcher(cheminASuivre);
-		disp.forward(request, response);
-
-	}
-
-	private void goAccueil(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		System.out.println("Dans EmployeControl - Go accueil");
-		disp = request.getRequestDispatcher("/index.jsp");
 		disp.forward(request, response);
 
 	}

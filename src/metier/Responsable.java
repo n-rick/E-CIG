@@ -2,18 +2,21 @@ package metier;
 
 import java.time.LocalDate;
 
+	
 public class Responsable extends Employe {
 	
 
 	public Responsable() {
 	}
 	
+
 	/**
 	 * @param idEmploye
 	 */
 	public Responsable(String idEmploye) {
 		super(idEmploye);
 	}
+	
 	
 	/**
 	 * @param idEmploye
@@ -57,7 +60,7 @@ public class Responsable extends Employe {
 	public String creerRef() {
 		String statut = null;
 		if (getNomEmploye() != null && getNomEmploye().length() > 1) 
-			statut = "RE" + getNomEmploye().toLowerCase().trim().substring(0,2) + 0+getDateNaissEmploye().getMonthValue();
+			statut = "RE" + getNomEmploye().toLowerCase().trim().substring(0,2) + 0 + getDateNaissEmploye().getMonthValue();
 		
 		return statut;
 	}
