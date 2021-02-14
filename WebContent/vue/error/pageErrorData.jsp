@@ -2,7 +2,7 @@
     pageEncoding="utf-8"%>
     <%@ page isErrorPage="true" %>
 
-<% request.setAttribute("titre", "Page d'erreur"); %>
+<% request.setAttribute("titre", "Page d'erreur Data"); %>
     
 <!-- head bootstrap de la page -->
 <jsp:include page="/WEB-INF/include/head.jsp" />
@@ -20,11 +20,11 @@
 
 		<div class="intro-text left-0 text-center bg-faded p-5 rounded">
 			<h2 class="section-heading mb-5">
-				<span class="section-heading-upper">Erreur Interne ! </span>
-				<span class="section-heading-lower">Exception : <%=exception %></span>
-				<span class="section-heading-lower">ErrorData : <%=pageContext.getErrorData().getStatusCode() %></span>
-				<span class="section-heading-lower">ErrorData : <%=pageContext.getErrorData().getRequestURI()  %></span>
-				<span class="section-heading-lower">Veuillez retourner à l'accueil</span>
+				<span class="section-heading-upper text-warning">OUPS ! Erreur Interne ! </span>
+				<br />
+				<p class="section-heading-lower">Notre serveur semble être enfumé!<br /> Veuillez nous excusez pour la gène occasionnée!</p>
+				<br />
+				<p>Veuillez retourner à <a href="<%=request.getContextPath()%>/e-cig/">l'accueil</a></p>
 			</h2>
 		</div>
 	</div>

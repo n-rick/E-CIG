@@ -7,22 +7,13 @@
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="dao.Dao"%>
 <%@ page import="java.time.LocalDate" %>
-<%@ page errorPage="errorPage.jsp" %>
+<%@ page errorPage="/WEB-INF/vue/erreur/errorPage.jsp"%>
 <jsp:useBean id="employe" class="metier.Employe" scope="session" />
 <jsp:useBean id="employeSelec" class="metier.Employe" scope="request" />
-<%-- <jsp:useBean id="message" class="java.lang.String" scope="request" /> --%>
-		<%
-				String message = null;
-			if (request.getAttribute("message") != null) {
-				message = (String) request.getAttribute("message");
-			} %>
+<jsp:useBean id="msgEmploye" class="java.lang.String" scope="request" />
 <%
 	ArrayList<Employe> employes = (ArrayList<Employe>) request.getAttribute("employes");
 %>
-<%-- <%
-	System.out.println("dans la JSP Liste Employé : " + employeSelec);
-%> --%>
-
 <%
 	request.setAttribute("titre", "liste des employés");
 %>
@@ -60,7 +51,7 @@
 					</div>
 					<div class="card-body">
 						<ul class="nav nav-pills flex-column">
-							<li><p class="text-info fw-bold text-uppercase"><%=employe.getNomEmploye()%></p></li>
+							<li><p class="text-info fw-bold"><%=employe.getNomEmploye().toUpperCase()%></p></li>
 							<li><p class="text-info fw-bold"><%=employe.getPrenomEmploye()%></p></li>
 						</ul>
 					</div>
@@ -197,7 +188,7 @@
 														value=""
 													<% } %>
 													
-													size="5" min="01000" max="97400">
+													size="5" min="01000" max="99000">
 											</div>
 											<div class="col-md-4">
 												<label for="villeEmploye">Ville</label> <input
@@ -213,11 +204,8 @@
 
 										</div>
 									</div>
-									<button data-bs-toggle="popover"
-										title="Modification effectuée!"
-										data-bs-content="La modification a bien été prise en compte. Merci."
-										data-toggle="collapse" data-target="#modif" type="submit"
-										formaction="<%=request.getContextPath()%>/admin/modif"
+									<button onclick="myMessEmploye()" data-toggle="collapse" data-target="#modif"
+									type="submit" formaction="<%=request.getContextPath()%>/admin/modif"
 										class="btn btn-primary">Modifier</button>
 								</form>
 							</div>
@@ -249,23 +237,23 @@
 								<th scope="row"><input name="selectEmploye" type="radio"
 									value="<%=employ.getIdEmploye()%>"></th>
 								<td><%=employ.getRefEmploye()%></td>
-								<td><%=employ.getNomEmploye()%></td>
-								<td><%=employ.getPrenomEmploye()%></td>
-								<td><%=employ.getEmailEmploye()%></td>
+								<td><%=employ.getNomEmploye().toUpperCase()%></td>
+								<td><%=employ.getPrenomEmploye().substring(0,1).toUpperCase()+employ.getPrenomEmploye().substring(1)%></td>
+								<td><%=employ.getEmailEmploye().toLowerCase()%></td>
 								<td><%=employ.getCoordonnee().getNomVille()%></td>
 								<td>
 									<div>
 										<button id="btnModif" data-toggle="collapse"
 											data-target="#modif" class="btn btn-info navbar-toggler"
+											data-toggle="tooltip" data-placement="top" title="Modification"
 											formaction="<%=request.getContextPath()%>/admin/affich">
 											<span class="sr-only">modifier</span> <i
 												class="fa fa-pencil-square-o"></i>
 										</button>
-										<button class="btn btn-danger navbar-toggler"
-											data-bs-toggle="popover" title="Suppression effectuée!"
-											data-bs-content="La suppression a bien été prise en compte. Merci."
-											id="btnSupp"
-											formaction="<%=request.getContextPath()%>/admin/supp">
+										<button class="btn btn-danger navbar-toggler" 
+										data-toggle="tooltip" data-placement="top" title="Suppression"
+										id="btnSupp" onclick="myMessEmploye()" 
+										formaction="<%=request.getContextPath()%>/admin/supp">
 											<span class="sr-only">supprimer</span> <i
 												class="fa fa-user-times"></i>
 										</button>
@@ -283,6 +271,11 @@
 		</div>
 		<!-- /.col-lg-9-->
 	</div>
+	<!--  Message de confirmation -->
+	
+<div id="snackbar"><%= msgEmploye %></div>
+
+	<!-- Fin du message de confirmation -->
 </div>
 <!--  Footer de la page -->
 <%@ include file="/WEB-INF/include/footer.jsp"%>

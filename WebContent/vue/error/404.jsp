@@ -20,8 +20,9 @@
 
 		<div class="intro-text left-0 text-center bg-faded p-5 rounded">
 			<h2 class="section-heading mb-5">
-				<span class="section-heading-upper"> Page introuvable! Erreur 404 </span>
-				<span class="section-heading-lower">Veuillez retourner à l'accueil</span>
+				<span class="section-heading-upper text-warning"> Page introuvable! Erreur 404. </span>
+				<br />
+				<p>Veuillez retourner à <a href="<%=request.getContextPath()%>/e-cig/">l'accueil</a></p>
 			</h2>
 		</div>
 	</div>

@@ -1,11 +1,9 @@
 package webApp.gestionEmploye;
 
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -55,7 +53,7 @@ public class EmployeControl extends HttpServlet {
 	 * @throws IOException
 	 */
 	private void goCreaEmploye(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
-		System.out.println("Dans EmployeControl.java - goCreaEmployé ");
+		System.out.println("Dans EmployeControl.java - goCreaEmploye ");
 		disp = request.getRequestDispatcher("/WEB-INF/vue/employe/creationEmploye.jsp");
 		disp.forward(request, response);
 		
@@ -98,8 +96,9 @@ public class EmployeControl extends HttpServlet {
 		// Récupération de la session de l'employé
 //		HttpSession sessionEmploye = request.getSession(true);
 //		Employe employeEnSession = (Employe) sessionEmploye.getAttribute("employe");
+		String idEmployeSelectionne = request.getParameter("selectEmploye");
 		
-		String idE = request.getParameter("idEmploye").strip();
+		String idE = request.getParameter("idEmploye");
 		String sexE = request.getParameter("radioBtnEmploye");	
 		String nomE = request.getParameter("nomEmploye").strip();
 		String prenomE = request.getParameter("prenomEmploye").strip();
@@ -114,25 +113,22 @@ public class EmployeControl extends HttpServlet {
 		System.err.println(sexE);
 		System.err.println(mailE);
 		LocalDate dateNaiss = LocalDate.parse(dNaissE, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		
 		Employe newSalarie = new Salarie(idE, sexE, nomE, prenomE, dateNaiss, mailE, mdpE, telE, new EmployeCoordonnees(rueE, cdpE, villeE));
-		//System.out.println(newSalarie.getPrenomEmploye());
+		System.out.println(newSalarie.getPrenomEmploye());
 		System.err.println(newSalarie.getRefEmploye());
-		if(!idE.isBlank() && !nomE.isBlank() && !prenomE.isBlank() && !dNaissE.isBlank() 
-				&& !mdpE.isBlank() && !telE.isBlank() && !rueE.isBlank() && !villeE.isBlank()) {
+		
 		Dao.employes.add(newSalarie);
+		System.out.println(newSalarie);
+		request.setAttribute("msgEmploye","L\'employé : "+newSalarie.getRefEmploye()+" a bien été ajouté.");
+		System.err.println("msgEmploye : L\'employé : "+newSalarie.getRefEmploye()+" a bien été ajouté.");
 		disp = request.getRequestDispatcher("/admin/affich");
 		disp.forward(request, response);
-		} else {
-			request.setAttribute("message", "Une erreur c'est produite! Tous les champs sont vides");
-			disp = request.getRequestDispatcher(this.getServletContext().getInitParameter("pageError"));
-			disp.forward(request, response);
-		}
 	}
-		
 
 	/**
 	 * <b>Méthode goAfficheEmploye()</b>
-	 * <p>Cette méthode permet d'accéder à la jsp qui affiche la liste des employés</p>
+	 * <p>Cette méthode permet de renvoyer à la page d'affichage des employés</p>
 	 * @see /WEB-INF/vue/employe/listeEmploye.jsp
 	 * @param request
 	 * @param response
@@ -167,36 +163,48 @@ public class EmployeControl extends HttpServlet {
 
 	}
 
-	/**
-	 * <b>Methode doSupp()</b>
-	 * <p>Méthode permettant de supprimer un employé de la liste</p>
+	/**<b>Méthode doSupp()</b>
+	 * <p>Méthode permettant la suppression de l'employé sélectionné</p>
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
 	private void doSupp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Dans Go supp");
-		request.setAttribute("message", "");
+		System.out.println("Dans do supp");
+		request.setAttribute("msgEmploye", "");
+		try {
+			
+		
 		// récupération des donnees
 		String idEmploye = request.getParameter("selectEmploye").strip();
+		System.out.println("dans doSupp - L'id de l'employé sélectionné est : " +idEmploye);
+		
+		if(idEmploye!=null) {
 
 		// suppression de l'employé dans la liste
 		boolean ok = Dao.supressEmploye(idEmploye);
 		System.out.println("l'employé (N° " + idEmploye + ") a bien été supprimé ");
 
 		// rediriger vers la liste des employés
-		if (ok)
-			request.setAttribute("message", "L'employe " + idEmploye + " a été supprim&eacute;");
-		else
-			request.setAttribute("message", "Vous n'avez sélectionné aucun employé!");
+		if (ok)			request.setAttribute("msgEmploye", "L'employe " + idEmploye + " a été supprim&eacute;");
+		else			request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
 
 		goListEmploye(request, response);
-
+		} else {
+			request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
+			goAffichEmploye(request, response);
+		}
+		} catch (NullPointerException npe) {
+			request.setAttribute("msgEmploye", "Vous n'avez sélectioné aucun employé");
+			goListEmploye(request, response);
+		}
+		
 	}
 
-	/**<b>Méthode doModif()</b>
-	 * <p>Méthode permettant la modification d'un employé dans la liste des employés</p>
+	/**
+	 * <b>Méthode doModif </b>
+	 * <p>Méthode permettant la modification de l'employé sélectionnée</p>
 	 * @param request
 	 * @param response
 	 * @throws ServletException
@@ -205,8 +213,9 @@ public class EmployeControl extends HttpServlet {
 	private void doModif(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		System.out.println("Dans do Modif");
-		request.setAttribute("message", "");
+		request.setAttribute("msgEmploye", "");
 		
+		// Récupération des données : 
 		String idE = request.getParameter("idEmploye");
 		//System.out.println(idE);
 		String mailE = request.getParameter("mailEmploye").strip();
@@ -220,6 +229,7 @@ public class EmployeControl extends HttpServlet {
 		String villeE = request.getParameter("villeEmploye").strip();
 		//System.out.println(villeE);
 		
+		// Modification de l'objet
 		for (Employe emp : Dao.employes ) {
 			if (idE.equals(emp.getIdEmploye())) {
 				emp.setEmailEmploye(mailE);
@@ -229,14 +239,15 @@ public class EmployeControl extends HttpServlet {
 				emp.getCoordonnee().setNomVille(villeE);
 			}
 		}
-		request.setAttribute("message", "Les modifications ont bien été prise en compte");
-		disp = request.getRequestDispatcher("/admin/list");
+		System.err.println("l'employé :" + idE + " a bien été modifié ");
+		request.setAttribute("msgEmploye", "Les modifications ont bien été prise en compte");
+		disp = request.getRequestDispatcher("/admin/affich");
 		disp.forward(request, response);
 	}
 
-	/**<b>Méthode goListEmploye</b>
-	 * <p>Méthode permettant l'affichage de la liste des employés</p>
-	 * @see /WEB-INF/vue/employe/listeEmploye.jsp
+	/**
+	 * <b>Méthode goListEmploye()</b>
+	 * <p>Métode permettant l'affichage de la liste des employés.
 	 * @param request
 	 * @param response
 	 * @throws ServletException

@@ -91,8 +91,8 @@ public class Dao {
 		Employe employe = new Employe(idEmploye);
 		return getEmploye(employe);
 	}
+	
 	// ENRICK - Get Employé avec en paramètre un objet de type employé
-
 	public static Employe getEmploye(Employe employe) {
 		Employe trouve = null;
 		if (employes.contains(employe))
@@ -100,8 +100,15 @@ public class Dao {
 		return trouve;
 	}
 
-	// Enrick - Get employé avec email et mot de passe avec vérification des
-	// informations.
+
+	/**
+	 * <b>GetEmploye</b>
+	 * <p>Get employé avec email et mot de passe pour vérification lors de la connexion.</p> 
+	 * @param email
+	 * @param mdp
+	 * @return
+	 */
+	// ENRICK - Get employé avec email et mot de passe avec vérification des informations.
 	public static Employe getEmploye(String email, String mdp) {
 
 		Employe trouve = null;
@@ -115,6 +122,13 @@ public class Dao {
 		return trouve;
 	}
 
+
+	/**
+	 * <b>SuppressEmploye()</b>
+	 * <p>Permet la suppression de l'employé sélectionné dans la liste</p>
+	 * @param idEmploye
+	 * @return
+	 */
 	// ENRICK - Suppression d'un employé dans la liste
 	public static boolean supressEmploye(String idEmploye) {
 		boolean ok = false;
@@ -140,8 +154,6 @@ public class Dao {
 	}
 
 	// ENRICK - Array list des employés
-	// public static ArrayList<Employe> employes = initEmployes();
-
 	private static ArrayList<Employe> initEmployes() {
 
 		// Instatiation des employés: Soit de type Responsable, soit de type Salarié
@@ -163,19 +175,20 @@ public class Dao {
 		Employe sal05 = new Salarie("005", "Mr", "Totoo", "Jean-Charles", LocalDate.parse("2001-01-01"),
 				"ttjc@email.com", "ttjch01", "06.23.34.11.99",
 				new EmployeCoordonnees("23 boulevard du cheval rouge", 15004, "Aurillac"));
-		Employe res02 = new Responsable("02", "Mr", "Truc", "Gil", LocalDate.parse("1977-05-16"), "truc_gil@mail.com",
+		Employe sal06 = new Salarie("006", "Mr", "Truc", "Gil", LocalDate.parse("1977-05-16"), "truc_gil@mail.com",
 				"trgi12", "07.12.12.34.67", new EmployeCoordonnees("32 cours bellevue", 14098, "Pertuis"));
 
 		// Création de la liste des employés
 		ArrayList<Employe> employes = new ArrayList<Employe>();
 		employes.add(res01);
+		
 		// System.out.println("Dans DAO : "+list.get(0));
 		employes.add(sal01);
 		employes.add(sal04);
 		employes.add(sal05);
 		employes.add(sal03);
 		employes.add(sal02);
-		employes.add(res02);
+		employes.add(sal06);
 
 		return employes;
 	}
