@@ -110,18 +110,19 @@ public class EmployeControl extends HttpServlet {
 		int cdpE = Integer.parseInt(request.getParameter("cdpEmploye"));
 		String villeE = request.getParameter("villeEmploye").strip();
 		
-		System.err.println(sexE);
-		System.err.println(mailE);
+		//System.err.println(sexE);
+		//System.err.println(mailE);
 		LocalDate dateNaiss = LocalDate.parse(dNaissE, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		
 		Employe newSalarie = new Salarie(idE, sexE, nomE, prenomE, dateNaiss, mailE, mdpE, telE, new EmployeCoordonnees(rueE, cdpE, villeE));
-		System.out.println(newSalarie.getPrenomEmploye());
-		System.err.println(newSalarie.getRefEmploye());
+		//System.out.println(newSalarie.getPrenomEmploye());
+		//System.err.println(newSalarie.getRefEmploye());
 		
 		Dao.employes.add(newSalarie);
-		System.out.println(newSalarie);
+		//System.out.println(newSalarie);
 		request.setAttribute("msgEmploye","L\'employé : "+newSalarie.getRefEmploye()+" a bien été ajouté.");
-		System.err.println("msgEmploye : L\'employé : "+newSalarie.getRefEmploye()+" a bien été ajouté.");
+		
+		//System.err.println("msgEmploye : L\'employé : "+newSalarie.getRefEmploye()+" a bien été ajouté.");
 		disp = request.getRequestDispatcher("/admin/affich");
 		disp.forward(request, response);
 	}
@@ -172,34 +173,31 @@ public class EmployeControl extends HttpServlet {
 	 */
 	private void doSupp(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Dans do supp");
-		request.setAttribute("msgEmploye", "");
 		try {
-			
-		
-		// récupération des donnees
-		String idEmploye = request.getParameter("selectEmploye").strip();
-		System.out.println("dans doSupp - L'id de l'employé sélectionné est : " +idEmploye);
-		
-		if(idEmploye!=null) {
+			request.setAttribute("msgEmploye", "");
+			// récupération des donnees
+			String idEmploye = request.getParameter("selectEmploye").strip();
+			System.out.println("dans doSupp - L'id de l'employé sélectionné est : " +idEmploye);
 
-		// suppression de l'employé dans la liste
-		boolean ok = Dao.supressEmploye(idEmploye);
-		System.out.println("l'employé (N° " + idEmploye + ") a bien été supprimé ");
+			if(idEmploye!=null) {
 
-		// rediriger vers la liste des employés
-		if (ok)			request.setAttribute("msgEmploye", "L'employe " + idEmploye + " a été supprim&eacute;");
-		else			request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
+				// suppression de l'employé dans la liste
+				boolean ok = Dao.supressEmploye(idEmploye);
+				System.out.println("l'employé (N° " + idEmploye + ") a bien été supprimé ");
 
-		goListEmploye(request, response);
-		} else {
-			request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
-			goAffichEmploye(request, response);
-		}
+				// rediriger vers la liste des employés
+				if (ok)			request.setAttribute("msgEmploye", "L'employe " + idEmploye + " a été supprim&eacute;");
+				else			request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
+
+				goListEmploye(request, response);
+			} else {
+				request.setAttribute("msgEmploye", "Vous n'avez sélectionné aucun employé!");
+				goAffichEmploye(request, response);
+			}
 		} catch (NullPointerException npe) {
 			request.setAttribute("msgEmploye", "Vous n'avez sélectioné aucun employé");
 			goListEmploye(request, response);
 		}
-		
 	}
 
 	/**
