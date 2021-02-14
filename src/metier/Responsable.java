@@ -19,7 +19,8 @@ public class Responsable extends Employe {
 	
 	
 	/**
-	 * @param idEmploye
+	 * <b>Constrcteur Responsable avec paramètre </b>
+	 * 
 	 * @param civEmploye
 	 * @param nomEmploye
 	 * @param prenomEmploye
@@ -39,7 +40,7 @@ public class Responsable extends Employe {
 	
 
 	/**
-	 * @param idEmploye
+	 * <b>Construcuteur du Responsable avec paramètre référence en plus.
 	 * @param refEmploye
 	 * @param civEmploye
 	 * @param nomEmploye
@@ -68,9 +69,5 @@ public class Responsable extends Employe {
 	@Override
 	public String toString() {
 		return "Responsable : "+super.toString();
-	}
-	
-	
-
-	
+	}	
 }

@@ -26,7 +26,6 @@ public class Salarie extends Employe {
 	}
 
 	/**
-	 * @param idEmploye
 	 * @param refEmploye
 	 * @param civEmploye
 	 * @param nomEmploye
@@ -43,7 +42,6 @@ public class Salarie extends Employe {
 	}
 
 	/**
-	 * @param idEmploye
 	 * @param civEmploye
 	 * @param nomEmploye
 	 * @param prenomEmploye
